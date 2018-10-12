@@ -16,6 +16,17 @@ describe Admin::CategoriesController do
     assert_response :redirect, :action => 'index'
   end
 
+  describe "test_new" do
+    before(:each) do
+      get :new
+    end
+    
+    it 'should render template new' do
+      assert_template 'new'
+      assert_tag :tag => "form"
+    end
+  end
+  
   describe "test_edit" do
     before(:each) do
       get :edit, :id => Factory(:category).id
@@ -31,6 +42,13 @@ describe Admin::CategoriesController do
       assigns(:category).should_not be_nil
       assert assigns(:category).valid?
       assigns(:categories).should_not be_nil
+    end
+    
+    it 'should create new category' do
+      post :edit, :category => {:name => "Football", :keywords => "Soccer", :description => "Beautiful Game"}
+      assert_response :redirect, :action => 'index'
+      flash[:notice].should eq("Category was successfully saved.")
+      assigns(:category).should_not be_nil
     end
   end
 

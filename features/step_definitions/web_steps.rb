@@ -240,6 +240,9 @@ Then /^the "([^"]*)" checkbox(?: within (.*))? should be checked$/ do |label, pa
   end
 end
 
+When /^I follow "(.*)" of "(.*)"/ do |action, title|
+  find('tr', text: title).click_link(action)
+end
 Then /^the "([^"]*)" checkbox(?: within (.*))? should not be checked$/ do |label, parent|
   with_scope(parent) do
     field_checked = find_field(label)['checked']
